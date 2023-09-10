@@ -1,9 +1,6 @@
 package animateatlas;
 
-/**
- * All data needed for the json importer + some extra for after parsing.
- * Stolen mostly from https://github.com/TomByrne/Starling-Extension-Adobe-Animate-Hx/blob/master/hx/src/starling/extensions/animate/AnimationAtlasData.hx
- */
+//Soon
 typedef AnimationData = {
 	?ANIMATION:SymbolData,
 	?SYMBOL_DICTIONARY:{
@@ -73,7 +70,7 @@ typedef ElementData = {
 typedef SymbolInstanceData = {
 	SYMBOL_name:String,
 	Instance_Name:String,
-	bitmap:BitmapPosData,
+	//bitmap:BitmapPosData,  //NOOO
 	symbolType:String,
 	transformationPoint:PointData,
 	Matrix3D:Matrix3DData,
