@@ -1,16 +1,20 @@
 package openfl.display;
 
 import haxe.Timer;
-import openfl.Lib;
 import openfl.events.Event;
-import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
-import flixel.FlxG;
 import flixel.math.FlxMath;
 #if gl_stats
 import openfl.display._internal.stats.Context3DStats;
 import openfl.display._internal.stats.DrawCallContext;
+#end
+#if flash
+import openfl.Lib;
+#end
+
+#if openfl
+import openfl.system.System;
 #end
 
 /**
@@ -42,11 +46,7 @@ class FPS extends TextField
 		currentFPS = 0;
 		selectable = false;
 		mouseEnabled = false;
-		#if mobile
-		defaultTextFormat = new TextFormat('_sans', Std.int(14 * Math.min(Lib.current.stage.stageWidth / FlxG.width, Lib.current.stage.stageHeight / FlxG.height)), color);
-		#else
-		defaultTextFormat = new TextFormat('_sans', 14, color);
-		#end
+		defaultTextFormat = new TextFormat("_sans", 14, color);
 		autoSize = LEFT;
 		multiline = true;
 		text = "FPS: ";
@@ -60,15 +60,6 @@ class FPS extends TextField
 		{
 			var time = Lib.getTimer();
 			__enterFrame(time - currentTime);
-		});
-		#end
-
-		#if mobile
-		addEventListener(Event.RESIZE, function(e:Event)
-		{
-			final daSize:Int = Std.int(14 * Math.min(Lib.current.stage.stageWidth / FlxG.width, Lib.current.stage.stageHeight / FlxG.height));
-			if (defaultTextFormat.size != daSize)
-				defaultTextFormat.size = daSize;
 		});
 		#end
 	}
@@ -87,14 +78,13 @@ class FPS extends TextField
 
 		var currentCount = times.length;
 		currentFPS = Math.round((currentCount + cacheCount) / 2);
-		if (currentFPS > ClientPrefs.framerate)
-			currentFPS = ClientPrefs.framerate;
+		if (currentFPS > ClientPrefs.framerate) currentFPS = ClientPrefs.framerate;
 
 		if (currentCount != cacheCount /*&& visible*/)
 		{
 			text = "FPS: " + currentFPS;
 			var memoryMegas:Float = 0;
-
+			
 			#if openfl
 			memoryMegas = Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 1));
 			text += "\nMemory: " + memoryMegas + " MB";
