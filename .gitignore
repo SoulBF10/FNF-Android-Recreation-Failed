@@ -1,33 +1,20 @@
-# Gradle files
-.gradle/
-build/
+### FNF-Specific
+# File used for the NG API. Should not be shared with others.
+APIStuff.hx
+art/build_x32-officialrelease.bat
+art/build_x64-officialrelease.bat
+art/test_x64-debug-officialrelease.bat
 
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.apk
-output.json
-
-# IntelliJ
-*.iml
-.idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
-
-# Keystore files
-*.jks
-*.keystore
-
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
-# Android Profiling
-*.hprof
+### VS Code
+export/*
+.vscode/*
+*.code-workspace
+# Local history which shouldn't be shared.
+.history
+.ionide
+# ! means a file should be added regardless of it it gets ignored prior.
+# Including to allow others to use already set-up configuration tweaked for the project.
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
