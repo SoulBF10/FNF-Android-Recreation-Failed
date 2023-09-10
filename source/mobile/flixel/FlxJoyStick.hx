@@ -11,6 +11,7 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.util.FlxDestroyUtil;
+import openfl.utils.Assets;
 
 /**
  * A virtual thumbstick - useful for input on mobile devices.
@@ -108,7 +109,7 @@ class FlxJoyStick extends FlxSpriteGroup
 	 * @param   Radius       The radius where the thumb can move. If 0, half the base's width will be used.
 	 * @param   Ease         Used to smoothly back thumb to center. Must be between 0 and (FlxG.updateFrameRate / 60).
 	 */
-	public function new(X:Float = 0, Y:Float = 0, Radius:Float = 0, Ease:Float = 0.25):Void
+	public function new(X:Float = 0, Y:Float = 0, Radius:Float = 0, Ease:Float = 0.25)
 	{
 		super(X, Y);
 
@@ -133,7 +134,7 @@ class FlxJoyStick extends FlxSpriteGroup
 	function createBase():Void
 	{
 		base = new FlxSprite(0, 0);
-		base.loadGraphic('assets/mobile/joystick/base.png');
+		base.loadGraphic(Assets.getBitmapData('assets/mobile/joystick/base.png'));
 		base.x += -base.width * 0.5;
 		base.y += -base.height * 0.5;
 		base.scrollFactor.set();
@@ -152,7 +153,7 @@ class FlxJoyStick extends FlxSpriteGroup
 	function createThumb():Void
 	{
 		thumb = new FlxSprite(0, 0);
-		thumb.loadGraphic('assets/mobile/joystick/thumb.png');
+		thumb.loadGraphic(Assets.getBitmapData('assets/mobile/joystick/thumb.png'));
 		thumb.x += -thumb.width * 0.5;
 		thumb.y += -thumb.height * 0.5;
 		thumb.scrollFactor.set();

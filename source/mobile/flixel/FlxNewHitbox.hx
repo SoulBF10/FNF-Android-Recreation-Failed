@@ -6,14 +6,13 @@ import openfl.display.BitmapData;
 import openfl.display.Shape;
 import mobile.flixel.FlxButton;
 
-
 /**
  * A zone with 4 hint's (A hitbox).
  * It's really easy to customize the layout.
  *
  * @author Mihai Alexandru (M.A. Jigsaw)
  */
-class FlxHitbox extends FlxSpriteGroup
+class FlxNewHitbox extends FlxSpriteGroup
 {
 	public var buttonLeft:FlxButton = new FlxButton(0, 0);
 	public var buttonDown:FlxButton = new FlxButton(0, 0);
