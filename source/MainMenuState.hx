@@ -35,7 +35,7 @@ class MainMenuState extends MusicBeatState
 	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
-		#if MODS_ALLOWED 'mods', #end
+		#if desktop 'mods', #end
 		#if ACHIEVEMENTS_ALLOWED 'awards', #end
 		'credits',
 		#if !switch 'donate', #end
@@ -49,6 +49,10 @@ class MainMenuState extends MusicBeatState
 
 	override function create()
 	{
+    Paths.clearStoredMemory();
+		Paths.clearUnusedMemory();
+
+
 		#if MODS_ALLOWED
 		Paths.pushGlobalMods();
 		#end
@@ -130,6 +134,10 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollowPos, null, 1);
 
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 664, 0, "port by glauber01", 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 24, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "Psych Engine v" + psychEngineVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -154,6 +162,10 @@ class MainMenuState extends MusicBeatState
 				ClientPrefs.saveSettings();
 			}
 		}
+		#end
+		
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
 		#end
 
 		super.create();
@@ -239,7 +251,7 @@ class MainMenuState extends MusicBeatState
 										MusicBeatState.switchState(new StoryMenuState());
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());
-									#if MODS_ALLOWED
+									#if desktop
 									case 'mods':
 										MusicBeatState.switchState(new ModsMenuState());
 									#end
@@ -255,7 +267,7 @@ class MainMenuState extends MusicBeatState
 					});
 				}
 			}
-			#if desktop
+			#if (desktop || mobile)
 			else if (FlxG.keys.anyJustPressed(debugKeys))
 			{
 				selectedSomethin = true;

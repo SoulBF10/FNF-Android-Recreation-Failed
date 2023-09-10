@@ -7,7 +7,7 @@ import flixel.graphics.FlxGraphic;
 import Controls;
 
 class ClientPrefs {
-	public static var downScroll:Bool = false;
+	public static var downScroll:Bool = true;
 	public static var middleScroll:Bool = false;
 	public static var opponentStrums:Bool = true;
 	public static var showFPS:Bool = true;
@@ -17,22 +17,29 @@ class ClientPrefs {
 	public static var lowQuality:Bool = false;
 	public static var shaders:Bool = true;
 	public static var framerate:Int = 60;
+	
 	public static var cursing:Bool = true;
 	public static var violence:Bool = true;
 	public static var camZooms:Bool = true;
 	public static var hideHud:Bool = false;
 	public static var noteOffset:Int = 0;
 	public static var arrowHSV:Array<Array<Int>> = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+	public static var vibration:Bool = false;
 	public static var ghostTapping:Bool = true;
 	public static var timeBarType:String = 'Time Left';
 	public static var scoreZoom:Bool = true;
 	public static var noReset:Bool = false;
 	public static var healthBarAlpha:Float = 1;
-	public static var controllerMode:Bool = false;
+	public static var controllerMode:Bool = #if android true #else false #end;
 	public static var hitsoundVolume:Float = 0;
 	public static var pauseMusic:String = 'Tea Time';
 	public static var checkForUpdates:Bool = true;
 	public static var comboStacking = true;
+	public static var hitboxmode:String = 'New';  //starting new way to change between hitboxes yay
+    
+	public static var hitboxExtend = true;
+	public static var hitboxLocation:String = 'Bottom';
+	public static var hitboxalpha:Float = 0.3; //someone request this lol
 	public static var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -56,6 +63,7 @@ class ClientPrefs {
 
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public static var ratingOffset:Int = 0;
+	public static var marvelousWindow:Int = 15;
 	public static var sickWindow:Int = 45;
 	public static var goodWindow:Int = 90;
 	public static var badWindow:Int = 135;
@@ -86,6 +94,18 @@ class ClientPrefs {
 		'debug_1'		=> [SEVEN, NONE],
 		'debug_2'		=> [EIGHT, NONE]
 	];
+	
+	// new extend
+	
+	public static var rainbowFPS:Bool = true;
+	public static var NoteSkin:String = 'Stepmania';
+	
+	
+	
+	
+	
+	// new extend
+	
 	public static var defaultKeys:Map<String, Array<FlxKey>> = null;
 
 	public static function loadDefaultKeys() {
@@ -104,12 +124,14 @@ class ClientPrefs {
 		FlxG.save.data.lowQuality = lowQuality;
 		FlxG.save.data.shaders = shaders;
 		FlxG.save.data.framerate = framerate;
+		FlxG.save.data.rainbowFPS = rainbowFPS;
 		//FlxG.save.data.cursing = cursing;
 		//FlxG.save.data.violence = violence;
 		FlxG.save.data.camZooms = camZooms;
 		FlxG.save.data.noteOffset = noteOffset;
 		FlxG.save.data.hideHud = hideHud;
 		FlxG.save.data.arrowHSV = arrowHSV;
+		FlxG.save.data.vibration = vibration;
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.timeBarType = timeBarType;
 		FlxG.save.data.scoreZoom = scoreZoom;
@@ -120,6 +142,7 @@ class ClientPrefs {
 		FlxG.save.data.henchmenDeath = Achievements.henchmenDeath;
 
 		FlxG.save.data.ratingOffset = ratingOffset;
+		FlxG.save.data.marvelousWindow = marvelousWindow;
 		FlxG.save.data.sickWindow = sickWindow;
 		FlxG.save.data.goodWindow = goodWindow;
 		FlxG.save.data.badWindow = badWindow;
@@ -130,11 +153,23 @@ class ClientPrefs {
 		FlxG.save.data.pauseMusic = pauseMusic;
 		FlxG.save.data.checkForUpdates = checkForUpdates;
 		FlxG.save.data.comboStacking = comboStacking;
+		
+		FlxG.save.data.hitboxmode = hitboxmode;
+		FlxG.save.data.hitboxalpha = hitboxalpha;
+	    FlxG.save.data.hitboxExtend = hitboxExtend;
+	    FlxG.save.data.hitboxLocation = hitboxLocation;
+	        // new extend
+	
+	FlxG.save.data.NoteSkin = NoteSkin;
+	
+	        // new extend
+	
+	
 	
 		FlxG.save.flush();
 
 		var save:FlxSave = new FlxSave();
-		save.bind('controls_v2', CoolUtil.getSavePath()); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
+		save.bind('controls_v2' , CoolUtil.getSavePath()); //Placing this in a separate save so that it can be manually deleted without removing your Score and stuff
 		save.data.customControls = keyBinds;
 		save.flush();
 		FlxG.log.add("Settings saved!");
@@ -181,6 +216,7 @@ class ClientPrefs {
 				FlxG.updateFramerate = framerate;
 			}
 		}
+		
 		/*if(FlxG.save.data.cursing != null) {
 			cursing = FlxG.save.data.cursing;
 		}
@@ -198,6 +234,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.arrowHSV != null) {
 			arrowHSV = FlxG.save.data.arrowHSV;
+		}
+		if(FlxG.save.data.vibration != null) {
+			vibration = FlxG.save.data.vibration;
 		}
 		if(FlxG.save.data.ghostTapping != null) {
 			ghostTapping = FlxG.save.data.ghostTapping;
@@ -221,6 +260,9 @@ class ClientPrefs {
 		if(FlxG.save.data.ratingOffset != null) {
 			ratingOffset = FlxG.save.data.ratingOffset;
 		}
+		if(FlxG.save.data.marvelousWindow != null) {
+			marvelousWindow = FlxG.save.data.marvelousWindow;
+		}
 		if(FlxG.save.data.sickWindow != null) {
 			sickWindow = FlxG.save.data.sickWindow;
 		}
@@ -239,6 +281,18 @@ class ClientPrefs {
 		if(FlxG.save.data.hitsoundVolume != null) {
 			hitsoundVolume = FlxG.save.data.hitsoundVolume;
 		}
+		if(FlxG.save.data.hitboxmode != null) {
+			hitboxmode = FlxG.save.data.hitboxmode;
+		}
+		if(FlxG.save.data.hitboxLocation != null) {
+			hitboxLocation = FlxG.save.data.hitboxLocation;
+		}
+		if(FlxG.save.data.hitboxExtend != null) {
+			hitboxExtend = FlxG.save.data.hitboxExtend;
+		}
+		if(FlxG.save.data.hitboxalpha != null) {
+			hitboxalpha = FlxG.save.data.hitboxalpha;
+		}
 		if(FlxG.save.data.pauseMusic != null) {
 			pauseMusic = FlxG.save.data.pauseMusic;
 		}
@@ -250,6 +304,21 @@ class ClientPrefs {
 				gameplaySettings.set(name, value);
 			}
 		}
+		
+		
+		// new extend
+		
+		
+		if(FlxG.save.data.rainbowFPS != null) {
+			rainbowFPS = FlxG.save.data.rainbowFPS;
+		}
+		
+		if(FlxG.save.data.NoteSkin != null) {
+			NoteSkin = FlxG.save.data.NoteSkin;
+		}
+		
+		
+		// new extend
 		
 		// flixel automatically saves your volume!
 		if(FlxG.save.data.volume != null)
@@ -268,7 +337,7 @@ class ClientPrefs {
 			comboStacking = FlxG.save.data.comboStacking;
 
 		var save:FlxSave = new FlxSave();
-		save.bind('controls_v2', CoolUtil.getSavePath());
+		save.bind('controls_v2' , CoolUtil.getSavePath());
 		if(save != null && save.data.customControls != null) {
 			var loadedControls:Map<String, Array<FlxKey>> = save.data.customControls;
 			for (control => keys in loadedControls) {
